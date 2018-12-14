@@ -11,9 +11,14 @@ import UIKit
 class TodoyViewController: UITableViewController {
 
     var itemArray = ["mmm" , "eee"  , "sss"]
+    let defaults  = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "TodoListArray") as? [String]{
+            itemArray = items
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,7 +62,10 @@ class TodoyViewController: UITableViewController {
             //what happen when ser clicks
             
             self.itemArray.append(textField.text!)
-              self.tableView.reloadData()
+            
+            self.defaults.setValue(self.itemArray, forKey: "TodoListArray")
+            self.tableView.reloadData()
+            
         }
         
         alert.addTextField { (alertTextField) in
